@@ -15,9 +15,7 @@ app.get("/", function (req, res) {
     res.sendFile(__dirname + "/html/index.html");
 });
 
-// ========================================
 // CADASTRO DA NUTRICIONISTA
-// ========================================
 
 app.post("/api/nutricionista/cadastro", async function (req, res) {
 
@@ -59,9 +57,7 @@ app.post("/api/nutricionista/cadastro", async function (req, res) {
     }
 });
 
-// ========================================
 // LOGIN DA NUTRICIONISTA
-// ========================================
 
 app.post("/api/nutricionista/login", async function (req, res) {
 
@@ -87,9 +83,7 @@ app.post("/api/nutricionista/login", async function (req, res) {
     }
 });
 
-// ========================================
 // CADASTRO DO PACIENTE
-// ========================================
 
 app.post("/api/paciente/cadastro", async function (req, res) {
 
@@ -129,9 +123,7 @@ app.post("/api/paciente/cadastro", async function (req, res) {
     }
 });
 
-// ========================================
 // LOGIN DO PACIENTE
-// ========================================
 
 app.post("/api/paciente/login", async function (req, res) {
 
@@ -157,9 +149,7 @@ app.post("/api/paciente/login", async function (req, res) {
     }
 });
 
-// ========================================
 // INICIAR SERVIDOR
-// ========================================
 
 app.listen(PORTA, function () {
     console.log("================================");
