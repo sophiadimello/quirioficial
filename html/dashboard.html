@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quiri — Dashboard</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div class="app">
+<div class="toast" id="toast"></div>
+
+<!-- MODAL: Atualizar Dados -->
+<div class="overlay" id="modalDados">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal('modalDados')"><i class="ti ti-x"></i></button>
+    <h3>Atualizar dados</h3>
+    <div class="field-label">Nome completo</div>
+    <input class="field-input" type="text" value="Dra. Ana Souza">
+    <div class="field-label">CRN</div>
+    <input class="field-input" type="text" value="CRN-1 00000">
+    <div class="field-label">Especialidade</div>
+    <select class="field-input"><option selected>Nutrição clínica</option><option>Nutrição esportiva</option><option>Nutrição funcional</option></select>
+    <div class="field-label">E-mail</div>
+    <input class="field-input" type="email" value="ana@clinica.com.br">
+    <div class="field-label">Telefone</div>
+    <input class="field-input" type="tel" value="(61) 99999-0000">
+    <div class="field-label">Nova senha</div>
+    <input class="field-input" type="password" placeholder="••••••••">
+    <button class="btn-green" style="margin-top:14px;" onclick="closeModal('modalDados');showToast('✓ Dados atualizados!','#2D6A4F')">Salvar alterações</button>
+  </div>
+</div>
+
+<!-- MODAL: Paciente detalhe -->
+<div class="overlay" id="modalPaciente">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal('modalPaciente')"><i class="ti ti-x"></i></button>
+    <h3 id="mp-nome">Maria Fernanda</h3>
+    <div style="font-size:12px;color:#6B9C84;margin-bottom:14px;" id="mp-info">Última consulta: 10/06/2026</div>
+    <div style="font-size:13px;font-weight:500;color:#1B4332;margin-bottom:8px;">Dieta atual</div>
+    <div class="meal-row"><div class="meal-dot"></div><div class="meal-name">Café da manhã</div><div class="meal-kcal">420 kcal</div></div>
+    <div class="meal-row"><div class="meal-dot alt"></div><div class="meal-name">Almoço</div><div class="meal-kcal">680 kcal</div></div>
+    <div class="meal-row"><div class="meal-dot"></div><div class="meal-name">Jantar</div><div class="meal-kcal">510 kcal</div></div>
+    <div style="font-size:13px;font-weight:500;color:#1B4332;margin:12px 0 6px;">Último feedback</div>
+    <div style="background:#F5EFE0;border-radius:8px;padding:8px 10px;font-size:12px;color:#4a7060;font-style:italic;">"Aveia ótima, mas gostaria de variar mais o café da manhã."</div>
+    <div style="display:flex;gap:8px;margin-top:14px;">
+      <button class="btn-outline" style="flex:1;margin-top:0;font-size:13px;" onclick="openModal('modalEditarPaciente');closeModal('modalPaciente')"><i class="ti ti-edit"></i> Editar</button>
+      <button style="flex:1;background:#fdf1f0;color:#c0625a;border:1px solid #f5c4c2;border-radius:10px;padding:10px;font-size:13px;font-family:inherit;cursor:pointer;" onclick="removerPaciente()"><i class="ti ti-trash"></i> Remover</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: Editar paciente -->
+<div class="overlay" id="modalEditarPaciente">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal('modalEditarPaciente')"><i class="ti ti-x"></i></button>
+    <h3>Editar paciente</h3>
+    <div class="field-label">Nome</div>
+    <input class="field-input" type="text" value="Maria Fernanda Silva">
+    <div class="field-label">Data de nascimento</div>
+    <input class="field-input" type="date" value="1995-04-12">
+    <div class="field-label">Objetivo</div>
+    <select class="field-input"><option selected>Emagrecimento</option><option>Ganho de massa</option><option>Manutenção</option></select>
+    <div class="field-label">Observações</div>
+    <textarea class="field-input" rows="3" style="resize:none;">Intolerante à lactose. Prefere alimentos sem glúten.</textarea>
+    <button class="btn-green" style="margin-top:14px;" onclick="closeModal('modalEditarPaciente');showToast('✓ Paciente atualizado!','#2D6A4F')">Salvar</button>
+  </div>
+</div>
+
+<!-- MODAL: Nova Consulta -->
+<div class="overlay" id="modalConsulta">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal('modalConsulta')"><i class="ti ti-x"></i></button>
+    <h3>Agendar consulta</h3>
+    <div class="field-label">Paciente</div>
+    <select class="field-input"><option>Maria Fernanda Silva</option><option>João Pedro Costa</option><option>Carla Mendes</option><option>Rafael Oliveira</option></select>
+    <div class="field-label">Data</div>
+    <input class="field-input" type="date" value="2026-06-18">
+    <div class="field-label">Horário</div>
+    <select class="field-input"><option>08:00</option><option>09:00</option><option>10:00</option><option>14:00</option><option>15:00</option><option>16:00</option></select>
+    <div class="field-label">Tipo</div>
+    <select class="field-input"><option>Consulta inicial</option><option>Retorno</option><option>Online</option></select>
+    <div class="field-label">Observações</div>
+    <textarea class="field-input" rows="2" style="resize:none;" placeholder="Opcional..."></textarea>
+    <button class="btn-green" style="margin-top:14px;" onclick="salvarConsulta()">Agendar</button>
+  </div>
+</div>
+
+<!-- MODAL: Gerenciar dieta -->
+<div class="overlay" id="modalDieta">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal('modalDieta')"><i class="ti ti-x"></i></button>
+    <h3>Gerenciar dieta</h3>
+    <div class="field-label">Paciente</div>
+    <select class="field-input"><option>Maria Fernanda Silva</option><option>João Pedro Costa</option><option>Carla Mendes</option></select>
+    <div class="field-label">Meta calórica (kcal/dia)</div>
+    <input class="field-input" type="number" value="2100">
+    <div style="font-size:13px;font-weight:500;color:#1B4332;margin:14px 0 8px;">Refeições</div>
+    <div class="meal-row"><div class="meal-dot"></div><div class="meal-name">Café da manhã</div><input style="width:70px;border:0.5px solid #c8dfd4;border-radius:6px;padding:4px 6px;font-size:12px;text-align:right;" value="420 kcal"></div>
+    <div class="meal-row"><div class="meal-dot alt"></div><div class="meal-name">Almoço</div><input style="width:70px;border:0.5px solid #c8dfd4;border-radius:6px;padding:4px 6px;font-size:12px;text-align:right;" value="680 kcal"></div>
+    <div class="meal-row"><div class="meal-dot"></div><div class="meal-name">Jantar</div><input style="width:70px;border:0.5px solid #c8dfd4;border-radius:6px;padding:4px 6px;font-size:12px;text-align:right;" value="510 kcal"></div>
+    <div class="field-label">Restrições alimentares</div>
+    <input class="field-input" type="text" value="Lactose, Glúten">
+    <div class="field-label">Observações adicionais</div>
+    <textarea class="field-input" rows="2" style="resize:none;" placeholder="Ex: preferências, alergias..."></textarea>
+    <button class="btn-green" style="margin-top:14px;" onclick="closeModal('modalDieta');showToast('✓ Dieta atualizada!','#2D6A4F')">Salvar dieta</button>
+  </div>
+</div>
+
+<!-- MODAL: Novo relatório -->
+<div class="overlay" id="modalRelatorio">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal('modalRelatorio')"><i class="ti ti-x"></i></button>
+    <h3>Novo relatório</h3>
+    <div class="field-label">Título</div>
+    <input class="field-input" type="text" placeholder="Ex: Evolução mensal — Maria F.">
+    <div class="field-label">Paciente</div>
+    <select class="field-input"><option>Maria Fernanda Silva</option><option>João Pedro Costa</option><option>Carla Mendes</option></select>
+    <div class="field-label">Período</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+      <input class="field-input" type="date" value="2026-06-01">
+      <input class="field-input" type="date" value="2026-06-14">
+    </div>
+    <div class="field-label">Conteúdo</div>
+    <textarea class="field-input" rows="5" style="resize:none;" placeholder="Descreva a evolução, observações clínicas, metas atingidas..."></textarea>
+    <button class="btn-green" style="margin-top:14px;" onclick="salvarRelatorio()">Salvar relatório</button>
+  </div>
+</div>
+
+<!-- TOPBAR DASHBOARD -->
+<div class="topbar">
+  <div class="topbar-logo">
+    <svg width="24" height="24" viewBox="0 0 60 60" fill="none"><rect x="10" y="22" width="3" height="18" rx="1.5" fill="#F5EFE0"/><rect x="16" y="18" width="3" height="22" rx="1.5" fill="#F5EFE0"/><rect x="22" y="20" width="3" height="20" rx="1.5" fill="#F5EFE0"/><rect x="28" y="18" width="3" height="22" rx="1.5" fill="#F5EFE0"/><rect x="34" y="22" width="3" height="18" rx="1.5" fill="#F5EFE0"/><circle cx="42" cy="28" r="10" stroke="#F5EFE0" stroke-width="3" fill="none"/><line x1="49" y1="35" x2="55" y2="41" stroke="#F5EFE0" stroke-width="3" stroke-linecap="round"/><circle cx="38" cy="16" r="4" fill="#F5EFE0"/></svg>
+    <span>Quiri</span>
+  </div>
+  <div class="topbar-right">
+    <i class="ti ti-bell" onclick="showToast('⚠ Erro de sincronização. Tente novamente.','#c0625a')"></i>
+    <i class="ti ti-settings" onclick="openModal('modalDados')"></i>
+    <a href="login.html" style="color:#F5EFE0;text-decoration:none;display:flex;" title="Sair"><i class="ti ti-logout"></i></a>
+  </div>
+</div>
+
+<!-- HERO DASHBOARD -->
+<div class="hero">
+  <div class="hero-greeting">Olá,</div>
+  <div class="hero-name">Dra. Ana Souza</div>
+  <div class="hero-sub">CRN-1 00000 · Nutrição clínica</div>
+  <span class="hero-badge"><i class="ti ti-shield-check" style="font-size:11px;"></i> Conta verificada</span>
+</div>
+<svg class="hero-wave" viewBox="0 0 390 30" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+  <path d="M0,0 Q195,30 390,0 L390,30 L0,30 Z" fill="#F5EFE0"/>
+</svg>
+
+<!-- CONTEÚDO ROLÁVEL -->
+<div class="content-scroll" id="dashContent">
+
+  <!-- TABS de navegação interna -->
+  <div style="display:flex;gap:0;padding:12px 16px 0;overflow-x:auto;">
+    <button class="tab-btn active" onclick="showTab('tabInicio',this)">Início</button>
+    <button class="tab-btn" onclick="showTab('tabPacientes',this)">Pacientes</button>
+    <button class="tab-btn" onclick="showTab('tabAgenda',this)">Agenda</button>
+    <button class="tab-btn" onclick="showTab('tabRelatorios',this)">Relatórios</button>
+  </div>
+
+  <!-- TAB: INÍCIO -->
+  <div id="tabInicio" class="tab-content">
+    <div class="section">
+      <div class="stats-row" style="margin-top:12px;">
+        <div class="stat-card"><div class="stat-num">12</div><div class="stat-label">Pacientes ativos</div></div>
+        <div class="stat-card"><div class="stat-num">3</div><div class="stat-label">Consultas hoje</div></div>
+        <div class="stat-card"><div class="stat-num">5</div><div class="stat-label">Feedbacks novos</div></div>
+        <div class="stat-card"><div class="stat-num">8</div><div class="stat-label">Relatórios salvos</div></div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title">Ações rápidas</div>
+      <div class="cards-row">
+        <div class="card" onclick="showTab('tabPacientes',null)">
+          <div class="card-icon"><i class="ti ti-users" aria-hidden="true"></i></div>
+          <div class="card-label">Ver pacientes</div>
+          <div class="card-sub">12 ativos</div>
+        </div>
+        <div class="card" onclick="openModal('modalDieta')">
+          <div class="card-icon"><i class="ti ti-salad" aria-hidden="true"></i></div>
+          <div class="card-label">Gerenciar dieta</div>
+          <div class="card-sub">Editar planos</div>
+        </div>
+        <div class="card" onclick="openScanner()">
+          <div class="card-icon"><i class="ti ti-barcode" aria-hidden="true"></i></div>
+          <div class="card-label">Ler código de barras</div>
+          <div class="card-sub">Infos nutricionais</div>
+        </div>
+        <div class="card" onclick="openModal('modalRelatorio')">
+          <div class="card-icon"><i class="ti ti-file-plus" aria-hidden="true"></i></div>
+          <div class="card-label">Novo relatório</div>
+          <div class="card-sub">Salvar evolução</div>
+        </div>
+        <div class="card card-wide" onclick="openModal('modalConsulta')">
+          <div class="card-icon"><i class="ti ti-calendar-plus" aria-hidden="true"></i></div>
+          <div class="card-text">
+            <div class="card-label">Agendar consulta</div>
+            <div class="card-sub">Organizar datas e horários</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Feedbacks recentes -->
+    <div class="section">
+      <div class="section-title">Feedbacks recentes</div>
+      <div class="feedback-item">
+        <div class="fb-header">
+          <div><div class="fb-product">Aveia Integral 3 Minutos</div><div class="fb-patient">Maria Fernanda Silva</div></div>
+          <div class="fb-stars">★★★★☆</div>
+        </div>
+        <div class="fb-comment">"Boa textura, mas enjoativa todo dia. Posso trocar por granola?"</div>
+      </div>
+      <div class="feedback-item">
+        <div class="fb-header">
+          <div><div class="fb-product">Whey Protein Baunilha</div><div class="fb-patient">João Pedro Costa</div></div>
+          <div class="fb-stars">★★★★★</div>
+        </div>
+        <div class="fb-comment">"Excelente! Misturei com banana e ficou perfeito pós-treino."</div>
+      </div>
+      <div class="feedback-item">
+        <div class="fb-header">
+          <div><div class="fb-product">Iogurte Natural Zero</div><div class="fb-patient">Carla Mendes</div></div>
+          <div class="fb-stars">★★★☆☆</div>
+        </div>
+        <div class="fb-comment">"Muito ácido para o meu gosto. Prefiro o de morango."</div>
+      </div>
+      <div style="height:8px;"></div>
+    </div>
+
+    <!-- Scanner inline -->
+    <div class="section" id="scannerArea" style="display:none;">
+      <div class="section-title">Leitor de código de barras</div>
+      <div class="scanner-box">
+        <i class="ti ti-barcode" style="font-size:48px;color:#2D6A4F;"></i>
+        <div style="font-size:13px;color:#1B4332;margin-top:8px;font-weight:500;">Aponte a câmera para o produto</div>
+        <div style="font-size:11px;color:#6B9C84;margin-top:4px;">Informações nutricionais para recomendações</div>
+        <button class="btn-green" style="max-width:200px;margin:14px auto 0;display:block;" onclick="showNutri()">Simular leitura</button>
+      </div>
+      <div class="nutri-result" id="nutriResult">
+        <div style="font-size:14px;font-weight:500;color:#1B4332;margin-bottom:8px;">Aveia Integral 3 Minutos</div>
+        <div class="meal-row"><div class="meal-dot"></div><div class="meal-name">Calorias</div><div class="meal-kcal">379 kcal / 100g</div></div>
+        <div class="meal-row"><div class="meal-dot alt"></div><div class="meal-name">Carboidratos</div><div class="meal-kcal">67g</div></div>
+        <div class="meal-row"><div class="meal-dot"></div><div class="meal-name">Proteínas</div><div class="meal-kcal">13g</div></div>
+        <div class="meal-row"><div class="meal-dot alt"></div><div class="meal-name">Gorduras</div><div class="meal-kcal">7g</div></div>
+        <div class="meal-row"><div class="meal-dot"></div><div class="meal-name">Fibras</div><div class="meal-kcal">11g</div></div>
+        <div class="meal-row"><div class="meal-dot alt"></div><div class="meal-name">Sódio</div><div class="meal-kcal">2mg</div></div>
+        <div class="compat-ok">✓ Adequado para pacientes com meta acima de 1800 kcal</div>
+      </div>
+      <div style="height:8px;"></div>
+    </div>
+  </div>
+
+  <!-- TAB: PACIENTES -->
+  <div id="tabPacientes" class="tab-content" style="display:none;">
+    <div class="section" style="padding-top:14px;">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;">
+        <div style="flex:1;position:relative;">
+          <i class="ti ti-search" style="position:absolute;left:10px;top:50%;transform:translateY(-50%);color:#6B9C84;font-size:16px;"></i>
+          <input class="field-input" type="text" placeholder="Buscar paciente..." style="padding-left:34px;margin-top:0;">
+        </div>
+        <button style="background:#2D6A4F;border:none;color:#F5EFE0;border-radius:10px;width:40px;height:40px;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;" onclick="showToast('Em breve: adicionar paciente','#2D6A4F')"><i class="ti ti-user-plus" style="font-size:18px;"></i></button>
+      </div>
+      <div class="section-title">Meus pacientes</div>
+
+      <div class="patient-card" onclick="openModal('modalPaciente')">
+        <div class="avatar">MF</div>
+        <div class="patient-info">
+          <div class="patient-name">Maria Fernanda Silva</div>
+          <div class="patient-sub">Próx. consulta: 16/06 às 09:00</div>
+        </div>
+        <span class="patient-badge badge-ok">Em dia</span>
+      </div>
+      <div class="patient-card" onclick="openModal('modalPaciente')">
+        <div class="avatar" style="background:#fef3e2;color:#8a5c00;">JP</div>
+        <div class="patient-info">
+          <div class="patient-name">João Pedro Costa</div>
+          <div class="patient-sub">Próx. consulta: 18/06 às 14:00</div>
+        </div>
+        <span class="patient-badge badge-warn">Pendente</span>
+      </div>
+      <div class="patient-card" onclick="openModal('modalPaciente')">
+        <div class="avatar" style="background:#fde8f0;color:#72243E;">CM</div>
+        <div class="patient-info">
+          <div class="patient-name">Carla Mendes</div>
+          <div class="patient-sub">Próx. consulta: 19/06 às 10:00</div>
+        </div>
+        <span class="patient-badge badge-ok">Em dia</span>
+      </div>
+      <div class="patient-card" onclick="openModal('modalPaciente')">
+        <div class="avatar" style="background:#e8eaf6;color:#3C3489;">RO</div>
+        <div class="patient-info">
+          <div class="patient-name">Rafael Oliveira</div>
+          <div class="patient-sub">Última: 02/06 · sem retorno</div>
+        </div>
+        <span class="patient-badge badge-warn">Atenção</span>
+      </div>
+      <div class="patient-card" onclick="openModal('modalPaciente')">
+        <div class="avatar" style="background:#E8F5EE;color:#2D6A4F;">LS</div>
+        <div class="patient-info">
+          <div class="patient-name">Larissa Santos</div>
+          <div class="patient-sub">Próx. consulta: 20/06 às 08:00</div>
+        </div>
+        <span class="patient-badge badge-ok">Em dia</span>
+      </div>
+      <div style="height:12px;"></div>
+    </div>
+  </div>
+
+  <!-- TAB: AGENDA -->
+  <div id="tabAgenda" class="tab-content" style="display:none;">
+    <div class="section" style="padding-top:14px;">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
+        <div class="section-title" style="margin-bottom:0;">Junho 2026</div>
+        <button style="background:#2D6A4F;border:none;color:#F5EFE0;border-radius:8px;padding:6px 12px;font-size:12px;cursor:pointer;font-family:inherit;" onclick="openModal('modalConsulta')"><i class="ti ti-plus"></i> Nova consulta</button>
+      </div>
+      <div class="sched-block">
+        <div class="cal-row">
+          <div class="cal-day"><span class="cal-day-name">seg</span><div class="cal-day-num cal-avail">15</div></div>
+          <div class="cal-day"><span class="cal-day-name">ter</span><div class="cal-day-num cal-today">16</div></div>
+          <div class="cal-day"><span class="cal-day-name">qua</span><div class="cal-day-num cal-busy">17</div></div>
+          <div class="cal-day"><span class="cal-day-name">qui</span><div class="cal-day-num cal-busy">18</div></div>
+          <div class="cal-day"><span class="cal-day-name">sex</span><div class="cal-day-num cal-full">19</div></div>
+          <div class="cal-day"><span class="cal-day-name">sáb</span><div class="cal-day-num cal-neutral">20</div></div>
+          <div class="cal-day"><span class="cal-day-name">dom</span><div class="cal-day-num cal-neutral">21</div></div>
+        </div>
+        <div style="display:flex;gap:10px;font-size:11px;color:#6B9C84;flex-wrap:wrap;">
+          <span style="display:flex;align-items:center;gap:3px;"><span style="width:8px;height:8px;border-radius:50%;background:#2D6A4F;display:inline-block;"></span>Disponível</span>
+          <span style="display:flex;align-items:center;gap:3px;"><span style="width:8px;height:8px;border-radius:50%;background:#d4b27a;display:inline-block;"></span>Parcial</span>
+          <span style="display:flex;align-items:center;gap:3px;"><span style="width:8px;height:8px;border-radius:50%;background:#c0625a;display:inline-block;"></span>Lotado</span>
+        </div>
+      </div>
+
+      <div class="section-title">Hoje — 16 de junho</div>
+      <div class="sched-block" style="margin-bottom:14px;">
+        <div class="appt-row">
+          <div class="appt-time">09:00</div>
+          <div class="appt-name">Maria Fernanda Silva<br><span style="font-size:11px;color:#6B9C84;">Retorno</span></div>
+          <div class="appt-actions">
+            <button class="icon-btn" onclick="openModal('modalConsulta')" title="Editar"><i class="ti ti-edit"></i></button>
+            <button class="icon-btn red" onclick="cancelarConsulta(this)" title="Cancelar"><i class="ti ti-trash"></i></button>
+          </div>
+        </div>
+        <div class="appt-row">
+          <div class="appt-time">11:00</div>
+          <div class="appt-name">Larissa Santos<br><span style="font-size:11px;color:#6B9C84;">Consulta inicial</span></div>
+          <div class="appt-actions">
+            <button class="icon-btn" onclick="openModal('modalConsulta')" title="Editar"><i class="ti ti-edit"></i></button>
+            <button class="icon-btn red" onclick="cancelarConsulta(this)" title="Cancelar"><i class="ti ti-trash"></i></button>
+          </div>
+        </div>
+        <div class="appt-row">
+          <div class="appt-time">15:00</div>
+          <div class="appt-name">Rafael Oliveira<br><span style="font-size:11px;color:#6B9C84;">Online</span></div>
+          <div class="appt-actions">
+            <button class="icon-btn" onclick="openModal('modalConsulta')" title="Editar"><i class="ti ti-edit"></i></button>
+            <button class="icon-btn red" onclick="cancelarConsulta(this)" title="Cancelar"><i class="ti ti-trash"></i></button>
+          </div>
+        </div>
+      </div>
+
+      <div class="section-title">Próximas consultas</div>
+      <div class="sched-block">
+        <div class="appt-row">
+          <div class="appt-time">18/06<br><span style="font-size:10px;">14:00</span></div>
+          <div class="appt-name">João Pedro Costa<br><span style="font-size:11px;color:#6B9C84;">Retorno</span></div>
+          <div class="appt-actions">
+            <button class="icon-btn" onclick="openModal('modalConsulta')"><i class="ti ti-edit"></i></button>
+            <button class="icon-btn red" onclick="cancelarConsulta(this)"><i class="ti ti-trash"></i></button>
+          </div>
+        </div>
+        <div class="appt-row">
+          <div class="appt-time">19/06<br><span style="font-size:10px;">10:00</span></div>
+          <div class="appt-name">Carla Mendes<br><span style="font-size:11px;color:#6B9C84;">Consulta inicial</span></div>
+          <div class="appt-actions">
+            <button class="icon-btn" onclick="openModal('modalConsulta')"><i class="ti ti-edit"></i></button>
+            <button class="icon-btn red" onclick="cancelarConsulta(this)"><i class="ti ti-trash"></i></button>
+          </div>
+        </div>
+      </div>
+      <div style="height:12px;"></div>
+    </div>
+  </div>
+
+  <!-- TAB: RELATÓRIOS -->
+  <div id="tabRelatorios" class="tab-content" style="display:none;">
+    <div class="section" style="padding-top:14px;">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+        <div class="section-title" style="margin-bottom:0;">Relatórios salvos</div>
+        <button style="background:#2D6A4F;border:none;color:#F5EFE0;border-radius:8px;padding:6px 12px;font-size:12px;cursor:pointer;font-family:inherit;" onclick="openModal('modalRelatorio')"><i class="ti ti-plus"></i> Novo</button>
+      </div>
+
+      <div class="report-item">
+        <div class="report-icon"><i class="ti ti-file-text" aria-hidden="true"></i></div>
+        <div class="report-info">
+          <div class="report-name">Evolução mensal — Maria F.</div>
+          <div class="report-date">Período: maio 2026 · Salvo em 01/06</div>
+        </div>
+        <div class="report-actions">
+          <button class="icon-btn" title="Baixar"><i class="ti ti-download"></i></button>
+          <button class="icon-btn red" onclick="removerRelatorio(this)" title="Remover"><i class="ti ti-trash"></i></button>
+        </div>
+      </div>
+      <div class="report-item">
+        <div class="report-icon"><i class="ti ti-file-text" aria-hidden="true"></i></div>
+        <div class="report-info">
+          <div class="report-name">Análise nutricional — João P.</div>
+          <div class="report-date">Período: abr–mai 2026 · Salvo em 25/05</div>
+        </div>
+        <div class="report-actions">
+          <button class="icon-btn" title="Baixar"><i class="ti ti-download"></i></button>
+          <button class="icon-btn red" onclick="removerRelatorio(this)" title="Remover"><i class="ti ti-trash"></i></button>
+        </div>
+      </div>
+      <div class="report-item">
+        <div class="report-icon"><i class="ti ti-file-text" aria-hidden="true"></i></div>
+        <div class="report-info">
+          <div class="report-name">Relatório de adesão — Carla M.</div>
+          <div class="report-date">Período: mai 2026 · Salvo em 10/06</div>
+        </div>
+        <div class="report-actions">
+          <button class="icon-btn" title="Baixar"><i class="ti ti-download"></i></button>
+          <button class="icon-btn red" onclick="removerRelatorio(this)" title="Remover"><i class="ti ti-trash"></i></button>
+        </div>
+      </div>
+      <div style="height:12px;"></div>
+    </div>
+  </div>
+
+</div>
+
+<!-- BOTTOM NAV -->
+<div class="bottom-nav">
+  <div class="nav-item active" onclick="showTab('tabInicio',null);setActiveNav(this)">
+    <i class="ti ti-home" aria-hidden="true"></i>
+    <span>Início</span>
+  </div>
+  <div class="nav-item" onclick="showTab('tabPacientes',null);setActiveNav(this)">
+    <i class="ti ti-users" aria-hidden="true"></i>
+    <span>Pacientes</span>
+  </div>
+  <div class="nav-item" onclick="showTab('tabAgenda',null);setActiveNav(this)">
+    <i class="ti ti-calendar" aria-hidden="true"></i>
+    <span>Agenda</span>
+  </div>
+  <div class="nav-item" onclick="showTab('tabRelatorios',null);setActiveNav(this)">
+    <i class="ti ti-file-text" aria-hidden="true"></i>
+    <span>Relatórios</span>
+  </div>
+  <div class="nav-item" onclick="openModal('modalDados')">
+    <i class="ti ti-user-circle" aria-hidden="true"></i>
+    <span>Perfil</span>
+  </div>
+</div>
+
+</div>
+<!-- END APP -->
+
+<script>
+function openModal(id) { document.getElementById(id).classList.add('open'); }
+function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+
+function showToast(msg, color) {
+  var t = document.getElementById('toast');
+  t.style.background = color || '#2D6A4F';
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(function() { t.classList.remove('show'); }, 3000);
+}
+
+function showTab(id, btn) {
+  document.querySelectorAll('.tab-content').forEach(t => t.style.display = 'none');
+  document.getElementById(id).style.display = 'block';
+  if (btn) {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+  }
+  document.getElementById('dashContent').scrollTop = 0;
+}
+
+function setActiveNav(el) {
+  document.querySelectorAll('.bottom-nav .nav-item').forEach(n => n.classList.remove('active'));
+  el.classList.add('active');
+}
+
+function openScanner() {
+  showTab('tabInicio', document.querySelector('.tab-btn'));
+  var s = document.getElementById('scannerArea');
+  s.style.display = 'block';
+  setTimeout(function() { s.scrollIntoView({ behavior: 'smooth' }); }, 120);
+}
+
+function showNutri() {
+  document.getElementById('nutriResult').style.display = 'block';
+}
+
+function salvarConsulta() {
+  closeModal('modalConsulta');
+  showToast('✓ Consulta agendada com sucesso!', '#2D6A4F');
+}
+
+function salvarRelatorio() {
+  closeModal('modalRelatorio');
+  showToast('✓ Relatório salvo!', '#2D6A4F');
+}
+
+function cancelarConsulta(btn) {
+  var row = btn.closest('.appt-row');
+  row.style.opacity = '0.4';
+  row.style.textDecoration = 'line-through';
+  showToast('Consulta cancelada.', '#c0625a');
+}
+
+function removerPaciente() {
+  closeModal('modalPaciente');
+  showToast('Paciente removido.', '#c0625a');
+}
+
+function removerRelatorio(btn) {
+  var item = btn.closest('.report-item');
+  item.style.opacity = '0.4';
+  showToast('Relatório removido.', '#c0625a');
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quiri — Entrar</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #e8e0d0; display: flex; justify-content: center; min-height: 100vh; }
+.app { background: #F5EFE0; width: 100%; max-width: 390px; min-height: 100vh; display: flex; flex-direction: column; position: relative; overflow: hidden; }
+
+.toast { position: absolute; top: 14px; left: 50%; transform: translateX(-50%); color: #fff; font-size: 13px; padding: 10px 18px; border-radius: 20px; display: none; white-space: nowrap; z-index: 999; font-family: inherit; }
+.toast.show { display: block; }
+
+.auth-hero { background: #2D6A4F; padding: 32px 24px 28px; color: #F5EFE0; text-align: center; }
+.auth-hero-title { font-size: 22px; font-weight: 600; margin-top: 12px; }
+.auth-hero-sub { font-size: 13px; opacity: 0.75; margin-top: 4px; }
+.auth-body { flex: 1; padding: 24px 20px; background: #F5EFE0; }
+.auth-body h2 { font-size: 18px; font-weight: 500; color: #1B4332; margin-bottom: 18px; }
+.field-label { font-size: 12px; color: #6B9C84; margin-bottom: 4px; margin-top: 14px; font-weight: 500; }
+.field-label:first-child { margin-top: 0; }
+.field-input { width: 100%; border: 1px solid #c8dfd4; border-radius: 10px; padding: 10px 12px; font-size: 14px; color: #1B4332; background: #fff; font-family: inherit; outline: none; transition: border-color 0.15s; }
+.field-input:focus { border-color: #2D6A4F; }
+.field-input.error { border-color: #c0625a; }
+.error-msg { font-size: 12px; color: #c0625a; margin-top: 4px; display: none; }
+.error-msg.show { display: block; }
+.btn-green { background: #2D6A4F; color: #F5EFE0; border: none; border-radius: 10px; padding: 12px; font-size: 14px; font-weight: 500; width: 100%; cursor: pointer; margin-top: 18px; font-family: inherit; }
+.btn-green:active { opacity: 0.85; }
+.btn-green:disabled { opacity: 0.6; cursor: not-allowed; }
+.auth-link { text-align: center; margin-top: 16px; font-size: 13px; color: #6B9C84; }
+.auth-link a { color: #2D6A4F; font-weight: 500; cursor: pointer; text-decoration: none; }
+</style>
+</head>
+<body>
+
+<div class="app">
+  <div class="toast" id="toast"></div>
+
+  <div class="auth-hero">
+    <svg width="44" height="44" viewBox="0 0 60 60" fill="none">
+      <rect x="10" y="22" width="3" height="18" rx="1.5" fill="#F5EFE0"/>
+      <rect x="16" y="18" width="3" height="22" rx="1.5" fill="#F5EFE0"/>
+      <rect x="22" y="20" width="3" height="20" rx="1.5" fill="#F5EFE0"/>
+      <rect x="28" y="18" width="3" height="22" rx="1.5" fill="#F5EFE0"/>
+      <rect x="34" y="22" width="3" height="18" rx="1.5" fill="#F5EFE0"/>
+      <circle cx="42" cy="28" r="10" stroke="#F5EFE0" stroke-width="3" fill="none"/>
+      <line x1="49" y1="35" x2="55" y2="41" stroke="#F5EFE0" stroke-width="3" stroke-linecap="round"/>
+      <circle cx="38" cy="16" r="4" fill="#F5EFE0"/>
+    </svg>
+    <div class="auth-hero-title">Quiri</div>
+    <div class="auth-hero-sub">Área do nutricionista</div>
+  </div>
+
+  <div class="auth-body">
+    <h2>Entrar</h2>
+
+    <div class="field-label">E-mail</div>
+    <input class="field-input" type="email" id="login-email" placeholder="ana@clinica.com.br">
+
+    <div class="field-label">Senha</div>
+    <div style="position:relative;">
+      <input class="field-input" type="password" id="login-senha" placeholder="••••••••" style="padding-right:40px;">
+      <i class="ti ti-eye" id="eyeIcon" onclick="togglePw()" style="position:absolute;right:12px;top:50%;transform:translateY(-50%);cursor:pointer;color:#6B9C84;font-size:18px;"></i>
+    </div>
+    <div class="error-msg" id="err-login">E-mail ou senha incorretos. Verifique e tente novamente.</div>
+
+    <button class="btn-green" id="btn-entrar" onclick="efetuarLogin()">Entrar</button>
+    <div class="auth-link">Não tem conta? <a href="cadastro-tipo.html">Cadastre-se</a></div>
+    <div style="height:24px;"></div>
+  </div>
+</div>
+
+<script>
+function showToast(msg, color) {
+  var t = document.getElementById('toast');
+  t.style.background = color || '#2D6A4F';
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(function() { t.classList.remove('show'); }, 3000);
+}
+
+function togglePw() {
+  var inp = document.getElementById('login-senha');
+  var icon = document.getElementById('eyeIcon');
+  if (inp.type === 'password') { inp.type = 'text'; icon.className = 'ti ti-eye-off'; }
+  else { inp.type = 'password'; icon.className = 'ti ti-eye'; }
+}
+
+async function efetuarLogin() {
+  var email = document.getElementById('login-email').value.trim();
+  var senha = document.getElementById('login-senha').value;
+  var err = document.getElementById('err-login');
+  var botao = document.getElementById('btn-entrar');
+
+  if (!email || !senha) {
+    showToast('⚠ Preencha e-mail e senha.', '#c0625a');
+    return;
+  }
+
+  err.classList.remove('show');
+  document.getElementById('login-email').classList.remove('error');
+  document.getElementById('login-senha').classList.remove('error');
+  botao.disabled = true;
+  botao.textContent = 'Entrando...';
+
+  try {
+    const resposta = await fetch('/api/nutricionista/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, senha })
+    });
+
+    const resultado = await resposta.json();
+
+    if (resposta.ok) {
+      window.location.href = 'dashboard.html';
+    } else {
+      err.classList.add('show');
+      document.getElementById('login-email').classList.add('error');
+      document.getElementById('login-senha').classList.add('error');
+      showToast('⚠ ' + (resultado.mensagem || 'E-mail ou senha incorretos.'), '#c0625a');
+      botao.disabled = false;
+      botao.textContent = 'Entrar';
+    }
+  } catch (erro) {
+    console.error('Erro ao fazer login:', erro);
+    showToast('⚠ Erro ao conectar com o servidor.', '#c0625a');
+    botao.disabled = false;
+    botao.textContent = 'Entrar';
+  }
+}
+</script>
+
+</body>
+</html>

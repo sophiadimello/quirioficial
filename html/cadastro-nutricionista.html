@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quiri — Cadastro da Nutricionista</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #e8e0d0; display: flex; justify-content: center; min-height: 100vh; }
+.app { background: #F5EFE0; width: 100%; max-width: 390px; min-height: 100vh; display: flex; flex-direction: column; position: relative; overflow: hidden; }
+
+.toast { position: absolute; top: 14px; left: 50%; transform: translateX(-50%); color: #fff; font-size: 13px; padding: 10px 18px; border-radius: 20px; display: none; white-space: nowrap; z-index: 999; font-family: inherit; }
+.toast.show { display: block; }
+
+.auth-hero { background: #2D6A4F; padding: 32px 24px 28px; color: #F5EFE0; text-align: center; }
+.auth-hero-title { font-size: 22px; font-weight: 600; margin-top: 12px; }
+.auth-hero-sub { font-size: 13px; opacity: 0.75; margin-top: 4px; }
+.auth-body { flex: 1; padding: 24px 20px; background: #F5EFE0; overflow-y: auto; }
+.auth-body h2 { font-size: 18px; font-weight: 500; color: #1B4332; margin-bottom: 18px; }
+.field-label { font-size: 12px; color: #6B9C84; margin-bottom: 4px; margin-top: 14px; font-weight: 500; }
+.field-label:first-child { margin-top: 0; }
+.field-input { width: 100%; border: 1px solid #c8dfd4; border-radius: 10px; padding: 10px 12px; font-size: 14px; color: #1B4332; background: #fff; font-family: inherit; outline: none; transition: border-color 0.15s; }
+.field-input:focus { border-color: #2D6A4F; }
+.field-input.error { border-color: #c0625a; }
+.error-msg { font-size: 12px; color: #c0625a; margin-top: 4px; display: none; }
+.error-msg.show { display: block; }
+.btn-green { background: #2D6A4F; color: #F5EFE0; border: none; border-radius: 10px; padding: 12px; font-size: 14px; font-weight: 500; width: 100%; cursor: pointer; margin-top: 18px; font-family: inherit; }
+.btn-green:active { opacity: 0.85; }
+.btn-green:disabled { opacity: 0.6; cursor: not-allowed; }
+.auth-link { text-align: center; margin-top: 16px; font-size: 13px; color: #6B9C84; }
+.auth-link a { color: #2D6A4F; font-weight: 500; cursor: pointer; text-decoration: none; }
+select.field-input { appearance: none; }
+</style>
+</head>
+<body>
+
+<div class="app">
+  <div class="toast" id="toast"></div>
+
+  <div class="auth-hero">
+    <svg width="44" height="44" viewBox="0 0 60 60" fill="none">
+      <rect x="10" y="22" width="3" height="18" rx="1.5" fill="#F5EFE0"/>
+      <rect x="16" y="18" width="3" height="22" rx="1.5" fill="#F5EFE0"/>
+      <rect x="22" y="20" width="3" height="20" rx="1.5" fill="#F5EFE0"/>
+      <rect x="28" y="18" width="3" height="22" rx="1.5" fill="#F5EFE0"/>
+      <rect x="34" y="22" width="3" height="18" rx="1.5" fill="#F5EFE0"/>
+      <circle cx="42" cy="28" r="10" stroke="#F5EFE0" stroke-width="3" fill="none"/>
+      <line x1="49" y1="35" x2="55" y2="41" stroke="#F5EFE0" stroke-width="3" stroke-linecap="round"/>
+      <circle cx="38" cy="16" r="4" fill="#F5EFE0"/>
+    </svg>
+    <div class="auth-hero-title">Quiri</div>
+    <div class="auth-hero-sub">Cadastro de nutricionista</div>
+  </div>
+
+  <div class="auth-body">
+    <h2>Criar conta</h2>
+
+    <div class="field-label">Nome completo</div>
+    <input class="field-input" type="text" id="cad-nome" placeholder="Dra. Ana Souza">
+
+    <div class="field-label">CPF</div>
+    <input class="field-input" type="text" id="cad-cpf" placeholder="000.000.000-00">
+
+    <div class="field-label">CRN (Conselho Regional)</div>
+    <input class="field-input" type="text" id="cad-crn" placeholder="CRN-1 00000">
+
+    <div class="field-label">Telefone</div>
+    <input class="field-input" type="tel" id="cad-tel" placeholder="(61) 99999-0000">
+
+    <div class="field-label">E-mail profissional</div>
+    <input class="field-input" type="email" id="cad-email" placeholder="ana@clinica.com.br">
+
+    <div class="field-label">Senha</div>
+    <input class="field-input" type="password" id="cad-senha" placeholder="Mínimo 6 caracteres" oninput="checkPwStrength(this.value)">
+    <div style="background:#e0ede6;border-radius:2px;margin-top:6px;height:4px;">
+      <div id="pw-bar" style="height:4px;border-radius:2px;width:0;transition:width 0.3s,background 0.3s;"></div>
+    </div>
+
+    <div class="field-label">Confirmar senha</div>
+    <input class="field-input" type="password" id="cad-senha2" placeholder="Repita a senha">
+    <div class="error-msg" id="err-senha2">As senhas não coincidem.</div>
+
+    <button class="btn-green" id="btn-cadastrar" onclick="efetuarCadastro()">Criar conta</button>
+    <div class="auth-link">Já tem conta? <a href="login.html">Entrar</a></div>
+    <div style="height:24px;"></div>
+  </div>
+</div>
+
+<script>
+function showToast(msg, color) {
+  var t = document.getElementById('toast');
+  t.style.background = color || '#2D6A4F';
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(function() { t.classList.remove('show'); }, 3000);
+}
+
+function checkPwStrength(v) {
+  var bar = document.getElementById('pw-bar');
+  var len = v.length;
+  var pct = Math.min(len / 12 * 100, 100);
+  var color = len < 6 ? '#c0625a' : len < 10 ? '#d4b27a' : '#2D6A4F';
+  bar.style.width = pct + '%';
+  bar.style.background = color;
+}
+
+async function efetuarCadastro() {
+  var nome = document.getElementById('cad-nome').value.trim();
+  var cpf = document.getElementById('cad-cpf').value.trim();
+  var crn = document.getElementById('cad-crn').value.trim();
+  var telefone = document.getElementById('cad-tel').value.trim();
+  var email = document.getElementById('cad-email').value.trim();
+  var s1 = document.getElementById('cad-senha').value;
+  var s2 = document.getElementById('cad-senha2').value;
+  var err = document.getElementById('err-senha2');
+  var botao = document.getElementById('btn-cadastrar');
+
+  if (!nome || !cpf || !crn || !telefone || !email) {
+    showToast('⚠ Preencha todos os campos obrigatórios.', '#c0625a');
+    return;
+  }
+  if (s1 !== s2) {
+    err.classList.add('show');
+    document.getElementById('cad-senha2').classList.add('error');
+    return;
+  }
+  if (s1.length < 6) {
+    showToast('⚠ A senha precisa ter pelo menos 6 caracteres.', '#c0625a');
+    return;
+  }
+  err.classList.remove('show');
+
+  // Trava o botão para evitar duplo envio
+  botao.disabled = true;
+  botao.textContent = 'Cadastrando...';
+
+  try {
+    const resposta = await fetch('/api/nutricionista/cadastro', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ nome, cpf, telefone, crn, email, senha: s1 })
+    });
+
+    const resultado = await resposta.json();
+
+    if (resposta.ok) {
+      window.location.href = 'auth-pendente.html?email=' + encodeURIComponent(email);
+    } else {
+      showToast('⚠ ' + (resultado.mensagem || 'Não foi possível cadastrar.'), '#c0625a');
+      botao.disabled = false;
+      botao.textContent = 'Criar conta';
+    }
+  } catch (erro) {
+    console.error('Erro ao cadastrar:', erro);
+    showToast('⚠ Erro ao conectar com o servidor.', '#c0625a');
+    botao.disabled = false;
+    botao.textContent = 'Criar conta';
+  }
+}
+</script>
+
+</body>
+</html>

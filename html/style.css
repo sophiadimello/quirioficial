@@ -1,0 +1,289 @@
+/* ========================================
+   LOGIN DA NUTRICIONISTA
+   ======================================== */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f5f5f5;
+    margin: 0;
+    padding: 0;
+}
+
+.login-container {
+    width: 400px;
+    margin: 80px auto;
+    padding: 30px;
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.login-container h1 {
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.login-container h2 {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+#formLogin, #formLoginPaciente {
+    display: flex;
+    flex-direction: column;
+}
+
+#formLogin label, #formLoginPaciente label {
+    margin-bottom: 6px;
+    font-weight: bold;
+}
+
+#formLogin input, #formLoginPaciente input {
+    padding: 12px;
+    margin-bottom: 18px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 15px;
+}
+
+#formLogin button, #formLoginPaciente button {
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.login-container p {
+    text-align: center;
+    margin-top: 20px;
+}
+
+/* ========================================
+   CADASTRO DA NUTRICIONISTA
+   ======================================== */
+
+.cadastro-container {
+    width: 500px;
+    margin: 50px auto;
+    padding: 30px;
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.cadastro-container h1 {
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.cadastro-container h2 {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+#formCadastroNutricionista {
+    display: flex;
+    flex-direction: column;
+}
+
+#formCadastroNutricionista label {
+    margin-bottom: 6px;
+    font-weight: bold;
+}
+
+#formCadastroNutricionista input {
+    padding: 12px;
+    margin-bottom: 18px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 15px;
+}
+
+#formCadastroNutricionista button {
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+#mensagem {
+    text-align: center;
+    margin-top: 20px;
+}
+
+/* ========================================
+   TELA INICIAL - INDEX
+   ======================================== */
+
+.inicio-container {
+    width: 400px;
+    margin: 100px auto;
+    padding: 35px;
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.inicio-container h1 {
+    margin-bottom: 10px;
+}
+
+.inicio-container h2 {
+    margin-bottom: 15px;
+}
+
+.inicio-container p {
+    margin-bottom: 25px;
+}
+
+.inicio-container button {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 15px;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+/* ========================================
+   ESCOLHA DO TIPO DE CADASTRO
+   ======================================== */
+
+.cadastro-tipo-container {
+    width: 400px;
+    margin: 100px auto;
+    padding: 35px;
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.cadastro-tipo-container h1 {
+    margin-bottom: 10px;
+}
+
+.cadastro-tipo-container h2 {
+    margin-bottom: 30px;
+}
+
+.cadastro-tipo-container button {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 15px;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+/* ========================================
+   CADASTRO DO PACIENTE
+   ======================================== */
+
+.cadastro-paciente-container {
+    width: 90%;
+    max-width: 420px;
+    margin: 40px auto;
+    padding: 25px;
+    background-color: white;
+    border-radius: 16px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.10);
+    box-sizing: border-box;
+}
+
+.cadastro-paciente-container h1 {
+    text-align: center;
+    margin-bottom: 8px;
+}
+
+.cadastro-paciente-container h2 {
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+.cadastro-paciente-container form {
+    display: flex;
+    flex-direction: column;
+}
+
+.cadastro-paciente-container label {
+    margin-bottom: 6px;
+    font-weight: bold;
+}
+
+.cadastro-paciente-container input {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 16px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-sizing: border-box;
+    font-size: 16px;
+}
+
+.cadastro-paciente-container input:focus {
+    outline: none;
+    border-color: #777;
+}
+
+.cadastro-paciente-container button {
+    width: 100%;
+    padding: 13px;
+    margin-top: 5px;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+#mensagemPaciente {
+    text-align: center;
+    margin-top: 15px;
+    font-weight: bold;
+}
+
+.cadastro-paciente-container p:last-child {
+    text-align: center;
+    margin-top: 20px;
+}
+
+/* ========================================
+   ERRO NOS CAMPOS
+   ======================================== */
+
+.campo-erro {
+    border: 2px solid #d9534f !important;
+}
+
+.mensagem-erro {
+    color: #d9534f;
+    font-size: 14px;
+    margin-top: -10px;
+    margin-bottom: 12px;
+}
+
+/* ========================================
+   CELULAR
+   ======================================== */
+
+@media (max-width: 480px) {
+
+    .cadastro-paciente-container {
+        width: 94%;
+        margin: 20px auto;
+        padding: 20px;
+    }
+
+    .cadastro-paciente-container h1 {
+        font-size: 28px;
+    }
+
+    .cadastro-paciente-container h2 {
+        font-size: 21px;
+    }
+
+}

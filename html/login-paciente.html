@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quiri · Login do Paciente</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600&family=Montserrat:wght@500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<style>
+  :root{
+    --cream:#f9e9d2;
+    --cream-soft:#fdf3e6;
+    --dark:#282828;
+    --dark-soft:#3a3a3a;
+    --green:#18482d;
+    --green-deep:#103420;
+    --green-mid:#456854;
+    --green-light:#7b947a;
+  }
+
+  *{ margin:0; padding:0; box-sizing:border-box; }
+
+  body{
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:var(--cream);
+    font-family:'Montserrat',sans-serif;
+    color:var(--dark);
+    padding:40px 20px;
+  }
+
+  .card{
+    width:100%;
+    max-width:380px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+  }
+
+  .brand{
+    font-family:'Montserrat',sans-serif;
+    font-weight:800;
+    font-size:1.6rem;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+    color:var(--green);
+    text-align:center;
+    margin-bottom:2px;
+  }
+
+  .tagline{
+    font-family:'Caveat',cursive;
+    font-weight:600;
+    font-size:1.4rem;
+    color:var(--green-mid);
+    text-align:center;
+    margin-bottom:8px;
+    letter-spacing:.01em;
+  }
+
+  .title{
+    font-family:'Montserrat',sans-serif;
+    font-weight:800;
+    font-size:.78rem;
+    letter-spacing:.28em;
+    text-transform:uppercase;
+    color:var(--green);
+    text-align:center;
+    margin-bottom:26px;
+  }
+
+  form{
+    width:100%;
+    display:flex;
+    flex-direction:column;
+    gap:13px;
+  }
+
+  .field label{
+    position:absolute;
+    width:1px; height:1px;
+    overflow:hidden;
+    clip:rect(0 0 0 0);
+    white-space:nowrap;
+  }
+
+  .field-wrap{
+    position:relative;
+    display:flex;
+    align-items:center;
+    gap:12px;
+    background:var(--dark);
+    border-radius:8px;
+    height:50px;
+    padding:0 16px;
+    border:1.5px solid transparent;
+    transition:border-color .2s ease;
+  }
+
+  .field-wrap:focus-within{
+    border-color:var(--green-mid);
+  }
+
+  .field-wrap.field-error{
+    border-color:#c0625a;
+  }
+
+  .field-wrap i.field-icon{
+    color:var(--cream);
+    font-size:.95rem;
+    width:16px;
+    text-align:center;
+    flex-shrink:0;
+  }
+
+  .field-wrap input{
+    flex:1;
+    width:100%;
+    background:transparent;
+    border:none;
+    outline:none;
+    color:#ffffff;
+    font-family:'Montserrat',sans-serif;
+    font-weight:700;
+    font-size:.72rem;
+    letter-spacing:.1em;
+    text-transform:uppercase;
+  }
+
+  .field-wrap input::placeholder{
+    color:#d9d4cb;
+    opacity:.65;
+  }
+
+  .toggle-pass{
+    background:none;
+    border:none;
+    color:var(--cream);
+    opacity:.75;
+    font-size:.9rem;
+    cursor:pointer;
+    padding:6px;
+    flex-shrink:0;
+    transition:opacity .15s ease;
+  }
+  .toggle-pass:hover{ opacity:1; }
+
+  .mensagem-login{
+    text-align:center;
+    font-size:.8rem;
+    font-weight:700;
+    color:#c0625a;
+    margin-top:14px;
+    min-height:1em;
+  }
+
+  .btn-primary{
+    margin-top:8px;
+    height:54px;
+    border:none;
+    border-radius:10px;
+    background:var(--green);
+    color:var(--cream-soft);
+    font-family:'Montserrat',sans-serif;
+    font-weight:800;
+    font-size:.95rem;
+    letter-spacing:.18em;
+    text-transform:uppercase;
+    cursor:pointer;
+    transition:background .2s ease, transform .12s ease, box-shadow .2s ease;
+  }
+  .btn-primary:hover{
+    background:var(--green-deep);
+    transform:translateY(-1px);
+    box-shadow:0 6px 16px -8px rgba(16,52,32,.6);
+  }
+  .btn-primary:active{ transform:translateY(0); }
+  .btn-primary:disabled{
+    opacity:.6;
+    cursor:not-allowed;
+    transform:none;
+    box-shadow:none;
+  }
+
+  .signup-link{
+    text-align:center;
+    font-size:.78rem;
+    color:var(--green-mid);
+    letter-spacing:.02em;
+    margin-top:26px;
+  }
+  .signup-link a{
+    color:var(--green);
+    font-weight:800;
+    text-decoration:none;
+    border-bottom:1.5px solid var(--green-light);
+    transition:border-color .15s ease;
+  }
+  .signup-link a:hover{
+    border-color:var(--green);
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .btn-primary{ transition:none; }
+  }
+
+  @media (max-width:340px){
+    .brand{ font-size:1.4rem; }
+    .tagline{ font-size:1.2rem; }
+  }
+
+  :focus-visible{
+    outline:2px solid var(--green-mid);
+    outline-offset:2px;
+  }
+</style>
+</head>
+<body>
+  <main class="card">
+    <div class="brand">Quiri</div>
+    <p class="tagline">Sua alimentação mais fácil e saudável!</p>
+    <p class="title">Login do paciente</p>
+
+    <form id="formLoginPaciente" autocomplete="on">
+      <div class="field">
+        <label for="email">E-mail</label>
+        <div class="field-wrap" id="emailWrap">
+          <i class="field-icon fa-solid fa-envelope" aria-hidden="true"></i>
+          <input id="email" name="email" type="email" placeholder="E-MAIL" autocomplete="email" required>
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="senha">Senha</label>
+        <div class="field-wrap" id="senhaWrap">
+          <i class="field-icon fa-solid fa-lock" aria-hidden="true"></i>
+          <input id="senha" name="senha" type="password" placeholder="SENHA" autocomplete="current-password" required>
+          <button type="button" class="toggle-pass" data-target="senha" aria-label="Mostrar senha" aria-pressed="false">
+            <i class="fa-solid fa-eye" aria-hidden="true"></i>
+          </button>
+        </div>
+      </div>
+
+      <button type="submit" class="btn-primary" id="btnEntrarPaciente">Entrar</button>
+    </form>
+
+    <p id="mensagemLoginPaciente" class="mensagem-login"></p>
+
+    <p class="signup-link">Ainda não possui cadastro? <a href="cadastro-paciente.html">Cadastre-se</a></p>
+  </main>
+
+  <script src="login-paciente.js"></script>
+  <script>
+    // Mostrar/ocultar senha (visual, independente do envio do formulário)
+    document.querySelectorAll('.toggle-pass').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const input = document.getElementById(btn.dataset.target);
+        const isHidden = input.type === 'password';
+        input.type = isHidden ? 'text' : 'password';
+        btn.setAttribute('aria-pressed', String(isHidden));
+        btn.setAttribute('aria-label', isHidden ? 'Ocultar senha' : 'Mostrar senha');
+        btn.innerHTML = isHidden
+          ? '<i class="fa-solid fa-eye-slash" aria-hidden="true"></i>'
+          : '<i class="fa-solid fa-eye" aria-hidden="true"></i>';
+      });
+    });
+  </script>
+</body>
+</html>

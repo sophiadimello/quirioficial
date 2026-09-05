@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quiri — Homepage</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #e8e0d0; display: flex; justify-content: center; min-height: 100vh; }
+  .app { background: #F5EFE0; width: 100%; max-width: 390px; min-height: 100vh; display: flex; flex-direction: column; position: relative; }
+  .topbar { background: #2D6A4F; color: #F5EFE0; padding: 14px 16px 10px; display: flex; align-items: center; justify-content: space-between; }
+  .topbar-logo { display: flex; align-items: center; gap: 8px; }
+  .topbar-logo span { font-size: 22px; font-weight: 600; color: #F5EFE0; letter-spacing: 0.5px; }
+  .topbar-right { display: flex; gap: 14px; align-items: center; }
+  .topbar-right i { font-size: 22px; color: #F5EFE0; cursor: pointer; }
+  .hero { background: #2D6A4F; padding: 0 16px 24px; color: #F5EFE0; }
+  .hero-greeting { font-size: 13px; opacity: 0.8; margin-bottom: 2px; }
+  .hero-name { font-size: 20px; font-weight: 500; }
+  .hero-sub { font-size: 12px; opacity: 0.7; margin-top: 2px; }
+  .hero-wave { width: 100%; height: 30px; display: block; }
+  .section { padding: 16px 16px 0; }
+  .section-title { font-size: 13px; font-weight: 500; color: #1B4332; text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 10px; }
+  .cards-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 16px; }
+  .card { background: #fff; border-radius: 14px; padding: 14px 12px; display: flex; flex-direction: column; gap: 6px; border: 0.5px solid #c8dfd4; cursor: pointer; transition: transform 0.15s; }
+  .card:active { transform: scale(0.97); }
+  .card-icon { width: 38px; height: 38px; border-radius: 10px; background: #E8F5EE; display: flex; align-items: center; justify-content: center; }
+  .card-icon i { font-size: 20px; color: #2D6A4F; }
+  .card-label { font-size: 13px; font-weight: 500; color: #1B4332; line-height: 1.3; }
+  .card-sub { font-size: 11px; color: #6B9C84; }
+  .card-wide { grid-column: 1 / -1; flex-direction: row; align-items: center; gap: 14px; }
+  .card-wide .card-icon { width: 46px; height: 46px; flex-shrink: 0; }
+  .card-wide .card-icon i { font-size: 24px; }
+  .card-wide .card-text { flex: 1; }
+  .schedule-block { background: #fff; border-radius: 14px; padding: 14px; border: 0.5px solid #c8dfd4; margin-bottom: 16px; }
+  .schedule-title { font-size: 13px; font-weight: 500; color: #1B4332; margin-bottom: 10px; }
+  .cal-row { display: flex; gap: 6px; justify-content: space-between; }
+  .cal-day { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px; }
+  .cal-day-name { font-size: 10px; color: #6B9C84; text-transform: uppercase; }
+  .cal-day-num { width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 500; }
+  .cal-avail { background: #E8F5EE; color: #2D6A4F; }
+  .cal-unavail { background: #f0e8e8; color: #c0625a; }
+  .cal-today { background: #2D6A4F; color: #fff; }
+  .cal-neutral { color: #888; }
+  .diet-card { background: #fff; border-radius: 14px; padding: 14px; border: 0.5px solid #c8dfd4; margin-bottom: 16px; }
+  .diet-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+  .diet-badge { background: #E8F5EE; color: #2D6A4F; font-size: 11px; font-weight: 500; padding: 3px 10px; border-radius: 20px; }
+  .meal-row { display: flex; align-items: center; gap: 10px; padding: 7px 0; border-bottom: 0.5px solid #eef4f0; }
+  .meal-row:last-child { border-bottom: none; }
+  .meal-dot { width: 8px; height: 8px; border-radius: 50%; background: #2D6A4F; flex-shrink: 0; }
+  .meal-dot.alt { background: #95C9A8; }
+  .meal-name { font-size: 13px; color: #1B4332; flex: 1; }
+  .meal-kcal { font-size: 11px; color: #6B9C84; }
+  .feedback-card { background: #fff; border-radius: 14px; padding: 14px; border: 0.5px solid #c8dfd4; margin-bottom: 16px; }
+  .feedback-stars { display: flex; gap: 6px; margin: 10px 0 8px; }
+  .star { font-size: 22px; color: #d4b27a; cursor: pointer; }
+  .feedback-input { width: 100%; border: 0.5px solid #c8dfd4; border-radius: 10px; padding: 8px 10px; font-size: 13px; color: #1B4332; background: #F5EFE0; resize: none; font-family: inherit; outline: none; }
+  .feedback-input:focus { border-color: #2D6A4F; }
+  .btn-green { background: #2D6A4F; color: #F5EFE0; border: none; border-radius: 10px; padding: 10px; font-size: 14px; font-weight: 500; width: 100%; cursor: pointer; margin-top: 8px; }
+  .btn-green:active { opacity: 0.85; }
+  .toast { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); color: #fff; font-size: 13px; padding: 10px 20px; border-radius: 20px; display: none; white-space: nowrap; z-index: 999; font-family: inherit; }
+  .toast.show { display: block; }
+  .overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.45); z-index: 100; align-items: flex-start; justify-content: center; padding-top: 60px; }
+  .overlay.open { display: flex; }
+  .modal-box { background: #fff; border-radius: 18px; padding: 20px 16px; width: 90%; max-width: 340px; position: relative; }
+  .modal-box h3 { font-size: 16px; font-weight: 500; color: #1B4332; margin-bottom: 14px; }
+  .field-label { font-size: 12px; color: #6B9C84; margin-bottom: 3px; margin-top: 10px; }
+  .field-input { width: 100%; border: 0.5px solid #c8dfd4; border-radius: 8px; padding: 8px 10px; font-size: 13px; color: #1B4332; background: #F5EFE0; font-family: inherit; outline: none; }
+  .field-input:focus { border-color: #2D6A4F; }
+  .modal-close { position: absolute; top: 14px; right: 14px; background: none; border: none; font-size: 20px; cursor: pointer; color: #6B9C84; }
+  .bottom-nav { background: #fff; border-top: 0.5px solid #c8dfd4; display: flex; justify-content: space-around; padding: 10px 0 8px; position: sticky; bottom: 0; }
+  .nav-item { display: flex; flex-direction: column; align-items: center; gap: 2px; cursor: pointer; }
+  .nav-item i { font-size: 22px; color: #6B9C84; }
+  .nav-item.active i { color: #2D6A4F; }
+  .nav-item span { font-size: 10px; color: #6B9C84; }
+  .nav-item.active span { color: #2D6A4F; }
+  .content-scroll { flex: 1; overflow-y: auto; padding-bottom: 70px; }
+  .compat-badge { margin-top: 10px; background: #E8F5EE; border-radius: 8px; padding: 8px 10px; font-size: 12px; color: #2D6A4F; }
+</style>
+</head>
+<body>
+
+<!-- Toast de notificação -->
+<div class="toast" id="toast"></div>
+
+<!-- Modal: Atualizar Dados -->
+<div class="overlay" id="profileModal">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal('profileModal')"><i class="ti ti-x"></i></button>
+    <h3>Atualizar dados</h3>
+    <div class="field-label">Nome completo</div>
+    <input class="field-input" type="text" value="Maria Fernanda Silva">
+    <div class="field-label">E-mail</div>
+    <input class="field-input" type="email" value="maria@email.com">
+    <div class="field-label">Telefone</div>
+    <input class="field-input" type="tel" value="(61) 99999-0000">
+    <div class="field-label">Nova senha</div>
+    <input class="field-input" type="password" placeholder="••••••••">
+    <button class="btn-green" style="margin-top:14px" onclick="saveProfile()">Salvar alterações</button>
+  </div>
+</div>
+
+<div class="app">
+
+  <!-- Topo -->
+  <div class="topbar">
+    <div class="topbar-logo">
+      <svg width="28" height="28" viewBox="0 0 60 60" fill="none">
+        <rect x="10" y="22" width="3" height="18" rx="1.5" fill="#F5EFE0"/>
+        <rect x="16" y="18" width="3" height="22" rx="1.5" fill="#F5EFE0"/>
+        <rect x="22" y="20" width="3" height="20" rx="1.5" fill="#F5EFE0"/>
+        <rect x="28" y="18" width="3" height="22" rx="1.5" fill="#F5EFE0"/>
+        <rect x="34" y="22" width="3" height="18" rx="1.5" fill="#F5EFE0"/>
+        <circle cx="42" cy="28" r="10" stroke="#F5EFE0" stroke-width="3" fill="none"/>
+        <line x1="49" y1="35" x2="55" y2="41" stroke="#F5EFE0" stroke-width="3" stroke-linecap="round"/>
+        <circle cx="38" cy="16" r="4" fill="#F5EFE0"/>
+      </svg>
+      <span>Quiri</span>
+    </div>
+    <div class="topbar-right">
+      <i class="ti ti-bell" title="Notificações" onclick="showToast('⚠ Erro: sessão expirada. Faça login novamente.', '#c0625a')"></i>
+      <i class="ti ti-user-circle" title="Perfil" onclick="openModal('profileModal')"></i>
+    </div>
+  </div>
+
+  <!-- Hero -->
+  <div class="hero">
+    <div class="hero-greeting">Bom dia 👋</div>
+    <div class="hero-name">Maria Fernanda</div>
+    <div class="hero-sub">Sua alimentação mais fácil e saudável!</div>
+  </div>
+  <svg class="hero-wave" viewBox="0 0 390 30" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+    <path d="M0,0 Q195,30 390,0 L390,30 L0,30 Z" fill="#F5EFE0"/>
+  </svg>
+
+  <!-- Conteúdo rolável -->
+  <div class="content-scroll">
+
+    <!-- Ações rápidas -->
+    <div class="section">
+      <div class="section-title">Ações rápidas</div>
+      <div class="cards-row">
+        <div class="card" onclick="openScanner()">
+          <div class="card-icon"><i class="ti ti-barcode" aria-hidden="true"></i></div>
+          <div class="card-label">Ler código de barras</div>
+          <div class="card-sub">Infos nutricionais</div>
+        </div>
+        <div class="card" onclick="openModal('profileModal')">
+          <div class="card-icon"><i class="ti ti-user-edit" aria-hidden="true"></i></div>
+          <div class="card-label">Atualizar dados</div>
+          <div class="card-sub">Editar cadastro</div>
+        </div>
+        <div class="card card-wide" onclick="scrollToFeedback()">
+          <div class="card-icon"><i class="ti ti-message-dots" aria-hidden="true"></i></div>
+          <div class="card-text">
+            <div class="card-label">Enviar feedback ao nutricionista</div>
+            <div class="card-sub">Avalie produtos recomendados</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Consultas / Calendário -->
+    <div class="section">
+      <div class="section-title">Consultas</div>
+      <div class="schedule-block">
+        <div class="schedule-title">Junho 2026</div>
+        <div class="cal-row">
+          <div class="cal-day">
+            <span class="cal-day-name">seg</span>
+            <div class="cal-day-num cal-avail">15</div>
+          </div>
+          <div class="cal-day">
+            <span class="cal-day-name">ter</span>
+            <div class="cal-day-num cal-today">16</div>
+          </div>
+          <div class="cal-day">
+            <span class="cal-day-name">qua</span>
+            <div class="cal-day-num cal-unavail">17</div>
+          </div>
+          <div class="cal-day">
+            <span class="cal-day-name">qui</span>
+            <div class="cal-day-num cal-avail">18</div>
+          </div>
+          <div class="cal-day">
+            <span class="cal-day-name">sex</span>
+            <div class="cal-day-num cal-unavail">19</div>
+          </div>
+          <div class="cal-day">
+            <span class="cal-day-name">sáb</span>
+            <div class="cal-day-num cal-neutral">20</div>
+          </div>
+        </div>
+        <div style="display:flex;gap:12px;margin-top:10px;font-size:11px;color:#6B9C84;">
+          <span style="display:flex;align-items:center;gap:4px;">
+            <span style="width:8px;height:8px;border-radius:50%;background:#2D6A4F;display:inline-block;"></span> Disponível
+          </span>
+          <span style="display:flex;align-items:center;gap:4px;">
+            <span style="width:8px;height:8px;border-radius:50%;background:#c0625a;display:inline-block;"></span> Indisponível
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Dieta -->
+    <div class="section">
+      <div class="section-title">Minha dieta de hoje</div>
+      <div class="diet-card">
+        <div class="diet-header">
+          <span style="font-size:13px;font-weight:500;color:#1B4332;">Plano alimentar</span>
+          <span class="diet-badge">2.100 kcal/dia</span>
+        </div>
+        <div class="meal-row"><div class="meal-dot"></div><div class="meal-name">Café da manhã</div><div class="meal-kcal">420 kcal</div></div>
+        <div class="meal-row"><div class="meal-dot alt"></div><div class="meal-name">Lanche da manhã</div><div class="meal-kcal">180 kcal</div></div>
+        <div class="meal-row"><div class="meal-dot"></div><div class="meal-name">Almoço</div><div class="meal-kcal">680 kcal</div></div>
+        <div class="meal-row"><div class="meal-dot alt"></div><div class="meal-name">Lanche da tarde</div><div class="meal-kcal">200 kcal</div></div>
+        <div class="meal-row"><div class="meal-dot"></div><div class="meal-name">Jantar</div><div class="meal-kcal">510 kcal</div></div>
+        <div class="meal-row"><div class="meal-dot alt"></div><div class="meal-name">Ceia</div><div class="meal-kcal">110 kcal</div></div>
+      </div>
+    </div>
+
+    <!-- Feedback -->
+    <div class="section" id="feedbackSection">
+      <div class="section-title">Feedback de produto</div>
+      <div class="feedback-card">
+        <div style="font-size:13px;color:#1B4332;font-weight:500;">Aveia integral — recomendado pela Dra. Ana</div>
+        <div style="font-size:11px;color:#6B9C84;margin-top:2px;">Como você está achando este produto?</div>
+        <div class="feedback-stars" id="stars">
+          <span class="star" onclick="rateStar(1)">★</span>
+          <span class="star" onclick="rateStar(2)">★</span>
+          <span class="star" onclick="rateStar(3)">★</span>
+          <span class="star" onclick="rateStar(4)">★</span>
+          <span class="star" onclick="rateStar(5)">★</span>
+        </div>
+        <textarea class="feedback-input" rows="3" placeholder="Escreva seu comentário..."></textarea>
+        <button class="btn-green" onclick="submitFeedback()">Enviar feedback</button>
+      </div>
+    </div>
+
+    <!-- Scanner -->
+    <div id="scannerSection" class="section" style="display:none;">
+      <div class="section-title">Leitor de código de barras</div>
+      <div class="schedule-block" style="text-align:center;padding:20px 14px;">
+        <i class="ti ti-barcode" style="font-size:48px;color:#2D6A4F;" aria-hidden="true"></i>
+        <div style="font-size:13px;color:#1B4332;margin-top:8px;font-weight:500;">Aponte a câmera para o produto</div>
+        <div style="font-size:11px;color:#6B9C84;margin-top:4px;">Acesse as informações nutricionais instantaneamente</div>
+        <button class="btn-green" style="margin-top:14px;max-width:200px;margin-left:auto;margin-right:auto;display:block;" onclick="showNutri()">Simular leitura</button>
+      </div>
+      <div id="nutriResult" class="diet-card" style="display:none;">
+        <div style="font-size:14px;font-weight:500;color:#1B4332;margin-bottom:8px;">Aveia Integral 3 Minutos</div>
+        <div class="meal-row"><div class="meal-dot"></div><div class="meal-name">Calorias</div><div class="meal-kcal">379 kcal / 100g</div></div>
+        <div class="meal-row"><div class="meal-dot alt"></div><div class="meal-name">Carboidratos</div><div class="meal-kcal">67g</div></div>
+        <div class="meal-row"><div class="meal-dot"></div><div class="meal-name">Proteínas</div><div class="meal-kcal">13g</div></div>
+        <div class="meal-row"><div class="meal-dot alt"></div><div class="meal-name">Gorduras</div><div class="meal-kcal">7g</div></div>
+        <div class="meal-row"><div class="meal-dot"></div><div class="meal-name">Fibras</div><div class="meal-kcal">11g</div></div>
+        <div class="compat-badge">✓ Produto compatível com sua dieta</div>
+      </div>
+    </div>
+
+    <div style="height:16px;"></div>
+  </div>
+
+  <!-- Barra inferior -->
+  <div class="bottom-nav">
+    <div class="nav-item active">
+      <i class="ti ti-home" aria-hidden="true"></i>
+      <span>Início</span>
+    </div>
+    <div class="nav-item">
+      <i class="ti ti-salad" aria-hidden="true"></i>
+      <span>Dieta</span>
+    </div>
+    <div class="nav-item" onclick="openScanner()">
+      <i class="ti ti-barcode" aria-hidden="true"></i>
+      <span>Scanner</span>
+    </div>
+    <div class="nav-item">
+      <i class="ti ti-calendar" aria-hidden="true"></i>
+      <span>Agenda</span>
+    </div>
+    <div class="nav-item" onclick="openModal('profileModal')">
+      <i class="ti ti-user" aria-hidden="true"></i>
+      <span>Perfil</span>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  function openModal(id) {
+    document.getElementById(id).classList.add('open');
+  }
+  function closeModal(id) {
+    document.getElementById(id).classList.remove('open');
+  }
+  function showToast(msg, color) {
+    var t = document.getElementById('toast');
+    t.style.background = color || '#2D6A4F';
+    t.textContent = msg;
+    t.classList.add('show');
+    setTimeout(function() { t.classList.remove('show'); }, 3000);
+  }
+  function saveProfile() {
+    closeModal('profileModal');
+    showToast('✓ Dados atualizados com sucesso!', '#2D6A4F');
+  }
+  function rateStar(v) {
+    var stars = document.querySelectorAll('.star');
+    stars.forEach(function(s, i) {
+      s.style.color = i < v ? '#d4b27a' : '#ddd';
+    });
+  }
+  function submitFeedback() {
+    showToast('✓ Feedback enviado ao nutricionista!', '#2D6A4F');
+  }
+  function openScanner() {
+    var s = document.getElementById('scannerSection');
+    s.style.display = 'block';
+    setTimeout(function() { s.scrollIntoView({ behavior: 'smooth' }); }, 100);
+  }
+  function showNutri() {
+    document.getElementById('nutriResult').style.display = 'block';
+  }
+  function scrollToFeedback() {
+    document.getElementById('feedbackSection').scrollIntoView({ behavior: 'smooth' });
+  }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quiri — Cadastro realizado</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #e8e0d0; display: flex; justify-content: center; min-height: 100vh; }
+.app { background: #F5EFE0; width: 100%; max-width: 390px; min-height: 100vh; display: flex; flex-direction: column; position: relative; overflow: hidden; }
+
+.toast { position: absolute; top: 14px; left: 50%; transform: translateX(-50%); color: #fff; font-size: 13px; padding: 10px 18px; border-radius: 20px; display: none; white-space: nowrap; z-index: 999; font-family: inherit; }
+.toast.show { display: block; }
+
+.auth-hero { background: #2D6A4F; padding: 40px 24px; color: #F5EFE0; text-align: center; }
+.auth-hero-title { font-size: 22px; font-weight: 600; margin-top: 12px; }
+.auth-hero-sub { font-size: 13px; opacity: 0.75; margin-top: 4px; }
+.auth-body { flex: 1; padding: 24px 20px; background: #F5EFE0; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+.btn-green { background: #2D6A4F; color: #F5EFE0; border: none; border-radius: 10px; padding: 12px; font-size: 14px; font-weight: 500; width: 100%; cursor: pointer; margin-top: 24px; font-family: inherit; text-align: center; text-decoration: none; display: block; box-sizing: border-box; }
+.btn-outline { background: transparent; color: #2D6A4F; border: 1px solid #2D6A4F; border-radius: 10px; padding: 12px; font-size: 14px; font-weight: 500; width: 100%; cursor: pointer; margin-top: 10px; font-family: inherit; }
+</style>
+</head>
+<body>
+
+<div class="app">
+  <div class="toast" id="toast"></div>
+
+  <div class="auth-hero">
+    <i class="ti ti-circle-check" style="font-size:52px;color:#F5EFE0;"></i>
+    <div class="auth-hero-title">Cadastro realizado!</div>
+    <div class="auth-hero-sub">Sua conta foi criada com o e-mail<br><strong id="emailConfirm">—</strong></div>
+  </div>
+
+  <div class="auth-body">
+    <div style="background:#E8F5EE;border-radius:14px;padding:20px;text-align:center;width:100%;">
+      <i class="ti ti-info-circle" style="font-size:32px;color:#2D6A4F;"></i>
+      <div style="font-size:14px;color:#1B4332;font-weight:500;margin-top:10px;">Tudo pronto</div>
+      <div style="font-size:12px;color:#6B9C84;margin-top:6px;">Sua conta já está ativa. Faça login para acessar o painel.</div>
+    </div>
+    <a href="login.html" class="btn-green">Ir para o login</a>
+  </div>
+</div>
+
+<script>
+function showToast(msg, color) {
+  var t = document.getElementById('toast');
+  t.style.background = color || '#2D6A4F';
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(function() { t.classList.remove('show'); }, 3000);
+}
+
+var params = new URLSearchParams(window.location.search);
+var email = params.get('email');
+if (email) {
+  document.getElementById('emailConfirm').textContent = email;
+}
+</script>
+
+</body>
+</html>

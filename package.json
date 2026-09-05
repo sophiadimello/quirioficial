@@ -1,0 +1,17 @@
+{
+  "name": "quiri",
+  "version": "1.0.0",
+  "description": "QUIRI - aplicativo de gestão de saúde e apoio nutricional",
+  "main": "main.js",
+  "scripts": {
+    "start": "node main.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^5.2.1",
+    "firebase-admin": "^14.2.0"
+  }
+}

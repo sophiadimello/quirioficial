@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+ 
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ 
+    <title>QUIRI - Cadastro</title>
+ 
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600&family=Montserrat:wght@500;600;700;800&display=swap" rel="stylesheet">
+ 
+    <link rel="stylesheet" href="style.css">
+    <style>
+        :root{
+            --cream:#f9e9d2;
+            --cream-soft:#fdf3e6;
+            --dark:#282828;
+            --dark-soft:#3a3a3a;
+            --green:#18482d;
+            --green-deep:#103420;
+            --green-mid:#456854;
+            --green-light:#7b947a;
+        }
+        *{ margin:0; padding:0; box-sizing:border-box; }
+        body{
+            min-height:100vh;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            background:var(--cream);
+            font-family:'Montserrat',sans-serif;
+            color:var(--dark);
+            padding:40px 20px;
+        }
+        /* ========================================
+           TELA: ESCOLHA DO TIPO DE CADASTRO
+           ======================================== */
+        .cadastro-tipo-container{
+            width:100%;
+            max-width:380px;
+            display:flex;
+            flex-direction:column;
+            align-items:center;
+            text-align:center;
+        }
+        .cadastro-tipo-container h1{
+            font-family:'Montserrat',sans-serif;
+            font-weight:800;
+            font-size:2rem;
+            letter-spacing:.1em;
+            text-transform:uppercase;
+            color:var(--green);
+            margin-bottom:6px;
+        }
+        .cadastro-tipo-container h2{
+            font-family:'Caveat',cursive;
+            font-weight:600;
+            font-size:1.4rem;
+            color:var(--green-mid);
+            letter-spacing:.01em;
+            margin-bottom:30px;
+        }
+        .cadastro-tipo-container button{
+            width:100%;
+            height:54px;
+            margin-bottom:15px;
+            border:none;
+            border-radius:10px;
+            background:var(--green);
+            color:var(--cream-soft);
+            font-family:'Montserrat',sans-serif;
+            font-weight:800;
+            font-size:.85rem;
+            letter-spacing:.14em;
+            text-transform:uppercase;
+            cursor:pointer;
+            transition:background .2s ease, transform .12s ease, box-shadow .2s ease;
+        }
+        .cadastro-tipo-container button:hover{
+            background:var(--green-deep);
+            transform:translateY(-1px);
+            box-shadow:0 6px 16px -8px rgba(16,52,32,.6);
+        }
+        .cadastro-tipo-container button:active{
+            transform:translateY(0);
+        }
+        /* Segundo botão com visual "outline", para diferenciar as duas opções */
+        .cadastro-tipo-container button:last-of-type{
+            background:transparent;
+            border:1.5px solid var(--green);
+            color:var(--green);
+        }
+        .cadastro-tipo-container button:last-of-type:hover{
+            background:var(--green);
+            color:var(--cream-soft);
+        }
+        @media (prefers-reduced-motion: reduce){
+            .cadastro-tipo-container button{ transition:none; }
+        }
+        @media (max-width:340px){
+            .cadastro-tipo-container h1{ font-size:1.7rem; }
+            .cadastro-tipo-container h2{ font-size:1.2rem; }
+        }
+        :focus-visible{
+            outline:2px solid var(--green-mid);
+            outline-offset:2px;
+        }
+    </style>
+</head>
+ 
+<body>
+ 
+    <main class="cadastro-tipo-container">
+ 
+        <h1>QUIRI</h1>
+ 
+        <h2>Como você deseja se cadastrar?</h2>
+ 
+        <!-- Opção de cadastro como nutricionista -->
+        <button onclick="irParaCadastroNutricionista()">
+            Sou Nutricionista
+        </button>
+ 
+        <!-- Opção de cadastro como paciente -->
+        <button onclick="irParaCadastroPaciente()">
+            Sou Paciente
+        </button>
+ 
+    </main>
+ 
+    <script src="cadastro-tipo.js"></script>
+ 
+</body>
+</html>
